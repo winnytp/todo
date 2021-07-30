@@ -123,6 +123,7 @@ ul {
 }
 
 #middle-view > div > h2 {
+    font-size: 20px;
     user-select: none;
 }
 
@@ -142,6 +143,63 @@ ul {
 #middle-view > div > input:focus {
     outline: none;
     border: 1px solid rgb(62, 175, 219);
+}
+
+#input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+#input-container > i {
+    position: absolute;
+    right: 0;
+    color: green;
+    font-size: 20px;
+    opacity: 25%;
+}
+
+#input-container > .fa-ellipsis-h {
+    position: absolute;
+    right: 40px;
+    color: rgba(0, 0, 0, 1);
+    opacity: 25%;
+    font-size: 14px;
+}
+
+#input-container > i:hover {
+    opacity: 80%;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    padding: 0em 0.75em;
+    border-radius: 6px;
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+}
+
+.task-item:hover {
+    background: #dcdddfad;
+}
+
+.task-item > input {
+    margin-right: .75em;
+}
+
+.task-item > hr {
+    width: 100%;
+}
+
+.task-item > i {
+    margin-left: auto;
+    opacity: 0%;
+}
+
+.task-item:hover > i {
+    opacity: 25%;
 }
 
 /* ==========
@@ -194,7 +252,7 @@ ul {
     opacity: 75%;
 }
 
-.fa-grip-lines {
+.fa-bars {
     margin-right: .5em;
 }
 
