@@ -39,12 +39,52 @@ ul {
     border-right: 1px solid rgba(0, 0, 0, .05);
     padding: 5px 15px;
     color: rgba(0, 0, 0, 0.75);
+    font-size: 14px;
 }
 
 #left-view > div > h1 {
     font-size: 18px;
     font-weight: normal;
     color: black;
+    user-select: none;
+}
+
+#left-view > hr {
+    width: 50%;
+    margin-top: 30px;
+    opacity: 25%;
+}
+
+#lists-view {
+    margin: 15px 0;
+}
+
+#lists-view > button {
+    border: none;
+    background: rgba(0, 0, 0, 0);
+    font-size: 15px;
+    padding: 8px;
+    border-radius: 6px;
+    text-align: left;
+}
+
+#lists-view > button:hover {
+    background: #dcdddfad;
+}
+
+.list-item {
+    color: black;
+    padding: 8px;
+    user-select: none;
+    border-radius: 6px;
+}
+
+.list-item:hover {
+    background: #dcdddfad;
+}
+
+#project-list {
+    user-select: none;
 }
 
 #project-list > ul > li {
@@ -80,6 +120,10 @@ ul {
     flex-grow: 1;
     background: white;
     padding: 0 2em;
+}
+
+#middle-view > div > h2 {
+    user-select: none;
 }
 
 #input-container {
@@ -154,14 +198,28 @@ ul {
     margin-right: .5em;
 }
 
-.project > .fas {
+.fa-plus-circle {
     margin-right: .75em;
+    color: rgba(0, 0, 0, 0.35);
+    width: 15px;
+    text-align: left;
+}
+
+li > i {
+    margin-right: .75em;
+    color: rgba(0, 0, 0, 0.35);
+    width: 15px;
+    text-align: left;
 }
 
 /* Selection Classes */
 .selected {
     font-weight: bold;
     background: #e9edfb;
+}
+
+.selected > .fas {
+    color: rgba(0, 0, 0, 0.75);
 }
 
 .selected:hover {
