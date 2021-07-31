@@ -19,7 +19,7 @@
                     <ul>
                         <li class='project'><i class="fas fa-calendar-check"></i>Today</li>
                         <li class='project'><i class="fas fa-calendar-alt"></i>Upcoming</li>
-                        <li class='project selected'><i class="fas fa-inbox"></i>Inbox <span>1</span></li>
+                        <li class='project selected'><i class="fas fa-inbox"></i>Inbox<!--<span>1</span>--></li>
                     </ul>
                 </div>
                 <hr>
@@ -29,32 +29,58 @@
                         <li class='list-item'><i class="far fa-list-alt"></i>Tasks</li>
                     </ul>
                 </div>
+                <div id='footer'>
+                    <p>Made by @winnytp</p>
+                </div>
             </section>
             <section id='middle-view' class='flex-column'>
                 <div>
                     <h2><i class="fas fa-bars"></i>Inbox</h2>
                 </div>
                 <div id='input-container'>
-                    <input placeholder='Add task to current project, press Enter to save.'>
-                    <i class="fas fa-plus-circle"></i>
+                    <input id='task-input' placeholder='Add a task to current project'>
+                    <i id='add-task-btn' class="fas fa-plus-circle"></i>
                     <i class="fas fa-ellipsis-h"></i>
                 </div>
                 <div id='tasks-container'>
                     <div class='task-item'>
                         <input type='checkbox'>
-                        <p>Complete this task, you goose.</p>
+                        <p>Welcome to Todo</p>
                         <i class="fas fa-ellipsis-h"></i>
                     </div>
                     <div class='task-item'>
                         <input type='checkbox'>
-                        <p>Complete this task, you goose.</p>
+                        <p>What can you do with Todo?</p>
                         <i class="fas fa-ellipsis-h"></i>
                     </div>
                 </div>
             </section>
             <section id='right-view'>
-                <div id='no-task-selected'>
+                <div id='no-task-default-view' class='hidden'>
                     <p>Click a task title to view its detail</p>
+                </div>
+                <div class='description' class='flex-column'>
+                    <div class='description-header flex-row align-items'>
+                        <input type='checkbox'>
+                        <p id='vertical-divider'>|</p>
+                        <div class='due-date flex-row align-items'>
+                            <i class="fas fa-calendar-day"></i>
+                            <p>Due Date</p>
+                        </div>
+                        <div class='priority'>
+                            <i class="fas fa-exclamation"></i>
+                        </div>
+                    </div>
+                    <div class='description-title'>
+                        <input type='text' value='Welcome to Todo'>
+                    </div>
+                    <div class='description-content'>
+                        <textarea>Thanks for testing this out! This is Todo, a web application which lets you save notes, add reminders and use to-do lists.
+
+The source code is fully available on my Github if you want to check it out.
+
+Thanks for testing!</textarea>
+                    </div>
                 </div>
             </section>
         </div>

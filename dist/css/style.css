@@ -8,6 +8,10 @@ html, body {
     margin: 0;
 }
 
+body::-webkit-scrollbar {
+    display: none;
+}
+
 h1, h2, h3 {
     font-family: 'Roboto', Arial, sans-serif;
     font-weight: normal;
@@ -110,6 +114,17 @@ ul {
     background: #dcdddfad;
 }
 
+#footer {
+    margin-top: auto;
+}
+
+#footer > p {
+    margin: 5px 0;
+    font-size: 0.9em;
+    text-align: center;
+    user-select: none;
+}
+
 /* ===========
    MIDDLE VIEW
    ===========
@@ -177,7 +192,7 @@ ul {
     align-items: center;
     font-size: 14px;
     padding: 0em 0.75em;
-    border-radius: 6px;
+    border-radius: 3px;
     border-bottom: 1px solid rgba(0, 0, 0, .1);
 }
 
@@ -208,19 +223,90 @@ ul {
 */
 
 #right-view {
-    height: 100vh;
-    flex-grow: 0.8;
+    max-height: 100vh;
+    flex-grow: 1;
     background: white;
     border-left: 1px solid rgba(0, 0, 0, .05);
+    padding: 1em;
 }
 
-#no-task-selected {
+#no-task-default-view {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     color: rgba(0, 0, 0, .5);
     user-select: none;
+}
+
+.due-date {
+    opacity: 35%;
+}
+
+.due-date:hover {
+    opacity: 50%;
+}
+
+.description-header {
+    padding-bottom: 0.25em;
+    margin-bottom: 1em;
+    border-bottom: 1px solid rgba(0, 0, 0, .05);
+}
+
+.description-header > .due-date > i {
+    margin: 0.25em;
+}
+
+.due-date > p {
+    font-size: 14px;
+    margin-left: .35em;
+    user-select: none;
+}
+
+#vertical-divider {
+    margin: 0 0.5em;
+    color: rgba(0, 0, 0, 0.2);
+}
+
+.priority {
+    margin-left: auto;
+    opacity: 35%;
+}
+
+.priority > i {
+    margin: 0 0.5em;
+}
+
+.priority:hover {
+    color: red;
+    opacity: 85%;
+}
+
+.description-title {
+    margin: 1em 0;
+}
+
+.description-title > input {
+    border: none;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.description-title > input:focus {
+    outline: none;
+}
+
+.description-content > textarea {
+    width: 100%;
+    overflow-wrap: break-word;
+    height: 90vh;
+    border: none;
+    font-size: 15px;
+}
+
+.description-content > textarea:focus {
+    outline: none;
 }
 
 /* =======
@@ -240,6 +326,10 @@ ul {
 
 .align-items {
     align-items: center;
+}
+
+.hidden {
+    display: none!important;
 }
 
 /* Font Awesome */
