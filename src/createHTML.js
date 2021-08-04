@@ -1,4 +1,4 @@
-function genHTML(tag, id, c, text) {
+function createHTML(tag, id, c, text) {
     let create = document.createElement(tag);
     if (id) create.setAttribute('id', id);
     if (c) create.setAttribute('class', c);
@@ -6,4 +6,4 @@ function genHTML(tag, id, c, text) {
     return create;
 }
 
-export default genHTML
+export default createHTML
