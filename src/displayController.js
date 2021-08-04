@@ -1,46 +1,25 @@
 import projectHandler from "./projectHandler";
 
 const displayController = (() => {
-    function addTask(project) {
+    function addTask() {
         const input = document.getElementById('task-input');
         if (!input.value) return;
-
-        const inputValue = input.value;
-
-        const taskContainer = document.getElementById('tasks-container');
-        let itemDiv = document.createElement('div');
-        itemDiv.classList.add('task-item');
-        taskContainer.appendChild(itemDiv);
-
-        let checkbox = document.createElement('input');
-        checkbox.setAttribute('type', 'checkbox');
-
-        let text = document.createElement('p');
-        text.textContent = inputValue;
-
-        let icon = document.createElement('i');
-        icon.setAttribute('class', 'fas fa-ellipsis-h');
-
-        itemDiv.appendChild(checkbox);
-        itemDiv.appendChild(text);
-        itemDiv.appendChild(icon);
-
-        input.value = '';
-    }
-
-    function switchProjectView() {
-        const projectTitleText = document.getElementById('project-name');
-        projectTitleText.textContent = projectHandler.getCurrentProject();
         _drawAllTasksInProject();
+        input.value = '';
     }
 
     function switchProject(target) {
         let currentproject = document.querySelector('.selected');
+        const projectTitleText = document.getElementById('project-name');
         currentproject.classList.remove('selected');
         target.classList.add('selected');
-        switchProjectView();
+        projectTitleText.textContent = projectHandler.getCurrentProject();
+
+        descriptionContainer('hide');
+        _drawAllTasksInProject();
     }
 
+    // Erases old tasks, then draws all the tasks in the selected project
     function _drawAllTasksInProject() {
         const taskContainer = document.getElementById('tasks-container');
         taskContainer.innerHTML = '';
@@ -57,9 +36,13 @@ const displayController = (() => {
 
             let inputCheckbox = document.createElement('input');
             inputCheckbox.setAttribute('type', 'checkbox');
+            inputCheckbox.setAttribute('data-index', i);
 
-            // Testing
-            inputCheckbox.addEventListener('click', (e) => {e.target.setAttribute('style', 'display: none;')});
+            inputCheckbox.addEventListener('click', (e) => {
+                let index = e.target.getAttribute('data-index');
+                let taskItem = document.querySelector(`div[data-index='${index}']`);
+                taskItem.classList.toggle('complete-task');
+            });
 
             let pTitle = document.createElement('p');
             pTitle.textContent = projectHandler.getItem(i).title;
@@ -73,22 +56,45 @@ const displayController = (() => {
             itemDiv.appendChild(icon);
 
             itemDiv.addEventListener('click', (e) => switchDescription(e));
+            itemDiv.addEventListener('click', () => {
+                // let oldHighlight = document.querySelector('.highlight-task');
+                // oldHighlight.classList.remove('highlight-task');
+                // itemDiv.classList.toggle('highlight-task');
+            })
 
             taskContainer.appendChild(itemDiv);
+        }
+    }
+
+    function descriptionContainer(action) {
+        let descriptionPane = document.querySelector('.description');
+        let defaultNoTaskView = document.getElementById('no-task-default-view');
+        if (action === 'hide') {
+            descriptionPane.classList.add('hidden');
+            defaultNoTaskView.classList.remove('hidden');
+        }
+        if (action === 'show') {
+            descriptionPane.classList.remove('hidden');
+            defaultNoTaskView.classList.add('hidden');
         }
     }
 
     function switchDescription(event) {
         if (event.target.tagName === 'INPUT' || event.target.tagName === 'I') return;
         let index = event.target.getAttribute('data-index');
-        alert(projectHandler.getItem(index).description);
+        let textArea = document.querySelector('textarea');
+        let titleText = document.querySelector('.description-title > input');
+        titleText.value = projectHandler.getItem(index).title;
+        descriptionContainer('show');
+        if (!projectHandler.getItem(index).description) return textArea.innerText = '';
+        textArea.innerText = projectHandler.getItem(index).description;
     }
 
-    function switchItem(item) {
-        
+    function drawAllTasks() {
+        _drawAllTasksInProject();
     }
 
-    return { addTask, switchProjectView, switchProject }
+    return { addTask, switchProject, drawAllTasks, }
 })();
 
 export default displayController

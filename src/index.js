@@ -1,6 +1,7 @@
 console.log('Todo App');
 
 import projectHandler from './projectHandler.js'
+import displayController from './displayController.js'
 
 // Event Listeners
 document.getElementById('add-task-btn').addEventListener('click', () => projectHandler.newTask());
@@ -10,4 +11,5 @@ projectBtns.forEach((item) => {
     item.addEventListener('click', (event) => projectHandler.switchProject(event));
 });
 
-projectHandler.createDefaultInbox();
+displayController.drawAllTasks();
+// projectHandler.createDefaultInbox();

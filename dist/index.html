@@ -35,15 +35,15 @@
             </section>
             <section id='middle-view' class='flex-column'>
                 <div id='project-title-container'>
-                    <h2 id='project-name'><i class="fas fa-bars"></i>Inbox</h2>
+                    <h2 id='project-name'><!--<i class="fas fa-bars"></i>-->Inbox</h2>
                 </div>
                 <div id='input-container'>
-                    <input id='task-input' placeholder='Add a task to current project'>
+                    <input id='task-input' placeholder='Add a task'>
                     <i id='add-task-btn' class="fas fa-plus-circle"></i>
                     <i class="fas fa-ellipsis-h"></i>
                 </div>
                 <div id='tasks-container'>
-                    <div class='task-item'>
+                    <!-- <div class='task-item'>
                         <input type='checkbox'>
                         <p>Welcome to Todo</p>
                         <i class="fas fa-ellipsis-h"></i>
@@ -52,14 +52,14 @@
                         <input type='checkbox'>
                         <p>What can you do with Todo?</p>
                         <i class="fas fa-ellipsis-h"></i>
-                    </div>
+                    </div> -->
                 </div>
             </section>
             <section id='right-view'>
-                <div id='no-task-default-view' class='hidden'>
+                <div id='no-task-default-view'>
                     <p>Click a task title to view its detail</p>
                 </div>
-                <div class='description' class='flex-column'>
+                <div class='description' class='flex-column hidden'>
                     <div class='description-header flex-row align-items'>
                         <input type='checkbox'>
                         <p id='vertical-divider'>|</p>

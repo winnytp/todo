@@ -4,7 +4,16 @@ const projectHandler = (() => {
     let projectObj = {
         Today: [],
         Upcoming: [],
-        Inbox: [],
+        Inbox: [
+            {
+                title: 'Welcome to Todo',
+                description: 'This is a default description, edit me!',
+            },
+            {
+                title: 'What can you do with Todo?',
+                description: 'This is another default description.',
+            }
+        ],
     }
 
     let listObj = {
@@ -43,9 +52,11 @@ const projectHandler = (() => {
         let target = event.target;
 
         _currentProject = projectObj[`${target.textContent}`];
-        console.table(_currentProject);
 
         _currentProjectName = target.textContent;
+
+        console.log('Switched to: ' + _currentProjectName);
+        console.table(_currentProject);
 
         displayController.switchProject(target);
     }
