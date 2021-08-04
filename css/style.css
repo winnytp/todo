@@ -6,6 +6,7 @@ html, body {
     width: 100vw;
     height: 100vh;
     margin: 0;
+    overflow: hidden;
 }
 
 body::-webkit-scrollbar {
@@ -135,6 +136,7 @@ ul {
     flex-grow: 1;
     background: white;
     padding: 0 2em;
+    width: 1vw;
 }
 
 #middle-view > div > h2 {
@@ -232,6 +234,7 @@ ul {
     background: white;
     border-left: 1px solid rgba(0, 0, 0, .05);
     padding: 1em;
+    width: 10vw;
 }
 
 #no-task-default-view {
@@ -334,6 +337,15 @@ ul {
 
 .hidden {
     display: none!important;
+}
+
+.complete-task {
+    opacity: 50%;
+    text-decoration: line-through;
+}
+
+.highlight-task {
+    border: 1px solid skyblue;
 }
 
 /* Font Awesome */
