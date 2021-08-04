@@ -196,6 +196,10 @@ ul {
     border-bottom: 1px solid rgba(0, 0, 0, .1);
 }
 
+.task-item > p {
+    user-select: none;
+}
+
 .task-item:hover {
     background: #dcdddfad;
 }
@@ -300,7 +304,7 @@ ul {
 .description-content > textarea {
     width: 100%;
     overflow-wrap: break-word;
-    height: 90vh;
+    height: 88vh;
     border: none;
     font-size: 15px;
 }
