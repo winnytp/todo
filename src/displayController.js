@@ -6,6 +6,7 @@ const displayController = (() => {
         if (!input.value) return;
         _drawAllTasksInProject();
         input.value = '';
+        showLastItem();
     }
 
     function switchProject(target) {
@@ -66,7 +67,7 @@ const displayController = (() => {
         }
     }
 
-    function descriptionContainer(action) {
+    function descriptionContainer(action, index) {
         let descriptionPane = document.querySelector('.description');
         let defaultNoTaskView = document.getElementById('no-task-default-view');
         if (action === 'hide') {
@@ -75,6 +76,7 @@ const displayController = (() => {
         }
         if (action === 'show') {
             descriptionPane.classList.remove('hidden');
+            descriptionPane.setAttribute('data-index-array', `${index}`);
             defaultNoTaskView.classList.add('hidden');
         }
     }
@@ -85,16 +87,31 @@ const displayController = (() => {
         let textArea = document.querySelector('textarea');
         let titleText = document.querySelector('.description-title > input');
         titleText.value = projectHandler.getItem(index).title;
-        descriptionContainer('show');
-        if (!projectHandler.getItem(index).description) return textArea.innerText = '';
-        textArea.innerText = projectHandler.getItem(index).description;
+        descriptionContainer('show', index);
+        if (!projectHandler.getItem(index).description) return textArea.value = '';
+        textArea.value = projectHandler.getItem(index).description;
+    }
+
+    function showLastItem() {
+        let index = projectHandler.getProjectArrayLength() - 1;
+        let textArea = document.querySelector('textarea');
+        let titleText = document.querySelector('.description-title > input');
+        titleText.value = projectHandler.getItem(index).title;
+        descriptionContainer('show', index);
+        if (!projectHandler.getItem(index).description) return textArea.value = '';
+        textArea.value = projectHandler.getItem(index).description;
+    }
+
+    function editTitle(index, value) {
+        let title = document.querySelector(`p[data-index='${index}']`);
+        title.innerText = String(value);
     }
 
     function drawAllTasks() {
         _drawAllTasksInProject();
     }
 
-    return { addTask, switchProject, drawAllTasks, }
+    return { addTask, switchProject, drawAllTasks, editTitle, showLastItem, }
 })();
 
 export default displayController

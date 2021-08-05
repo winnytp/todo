@@ -20,12 +20,12 @@ const projectHandler = (() => {
         Tasks: [],
     }
 
-    let _currentProject = projectObj['Inbox'];
     let _currentProjectName = 'Inbox';
+    let _currentProject = projectObj[`${_currentProjectName}`];
 
     function task(title, description, due, priority, completion) {
         const task = {};
-        task.title = title;
+        if (title) task.title = title;
         task.description = description;
         task.due = due;
         task.priority = priority;
@@ -40,6 +40,7 @@ const projectHandler = (() => {
         project.push(task(input.value));
         console.table(project);
         displayController.addTask();
+        displayController.showLastItem();
     }
 
     function createDefaultInbox() {
@@ -59,6 +60,21 @@ const projectHandler = (() => {
         console.table(_currentProject);
 
         displayController.switchProject(target);
+    }
+
+    function saveDescription() {
+        let descriptionPane = document.querySelector('.description');
+        let arrayIndex = descriptionPane.getAttribute('data-index-array');
+        let content = document.querySelector('textarea');
+        if (!arrayIndex) return;
+        _currentProject[arrayIndex].description = content.value;
+    }
+
+    function saveTitle() {
+        let index = document.querySelector('.description').getAttribute('data-index-array');
+        let title = document.querySelector('.description-title > input').value;
+        displayController.editTitle(index, title);
+        _currentProject[index].title = title;
     }
 
     function getCurrentProject() {
@@ -82,6 +98,8 @@ const projectHandler = (() => {
             getItem, 
             getProjectArrayLength,
             createDefaultInbox,
+            saveDescription,
+            saveTitle,
         }
 })();
 
