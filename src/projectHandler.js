@@ -2,8 +2,6 @@ import displayController from './displayController.js'
 
 const projectHandler = (() => {
     let projectObj = {
-        Today: [],
-        Upcoming: [],
         Inbox: [
             {
                 title: 'Welcome to Todo',
@@ -12,24 +10,32 @@ const projectHandler = (() => {
             {
                 title: 'What can you do with Todo?',
                 description: 'This is another default description.',
+            },
+            {
+                title: 'Check out my Github',
+                description: 'Find me @winnytp',
             }
         ],
-    }
 
-    let listObj = {
-        Tasks: [],
+        'Example List': [
+            {
+                title: 'This is an example title',
+                description: 'This is an example description',
+            },
+        ],
+
     }
 
     let _currentProjectName = 'Inbox';
     let _currentProject = projectObj[`${_currentProjectName}`];
 
-    function task(title, description, due, priority, completion) {
+    function task(title, description, date, priority, completed) {
         const task = {};
         if (title) task.title = title;
         task.description = description;
-        task.due = due;
+        task.date = date;
         task.priority = priority;
-        task.completion = completion;
+        task.completed = completed;
         return task;
     }
 
@@ -40,7 +46,14 @@ const projectHandler = (() => {
         project.push(task(input.value));
         console.table(project);
         displayController.addTask();
-        displayController.showLastItem();
+    }
+
+    function addProject() {
+        const input = document.getElementById('new-list-input');
+        let name = input.value;
+        projectObj[`${name}`] = [];
+        console.log(projectObj[`${name}`]);
+        displayController.createProject(name);
     }
 
     function createDefaultInbox() {
@@ -53,6 +66,8 @@ const projectHandler = (() => {
         let target = event.target;
 
         _currentProject = projectObj[`${target.textContent}`];
+
+        if (!_currentProject) return;
 
         _currentProjectName = target.textContent;
 
@@ -77,6 +92,13 @@ const projectHandler = (() => {
         _currentProject[index].title = title;
     }
 
+    function saveDate() {
+        let index = this.getAttribute('data-index');
+        const dateInput = document.querySelector('input[type=date]');
+        _currentProject[index].date = dateInput.value;
+        console.log(dateInput.value + ' was saved in ' + _currentProjectName + ' (index: ' + index + ')');
+    }
+
     function getCurrentProject() {
         return _currentProjectName;
     }
@@ -87,19 +109,26 @@ const projectHandler = (() => {
         return thisItem;
     }
 
+    function removeItem(i) {
+        _currentProject.splice(i, 1);
+    }
+
     function getProjectArrayLength() {
         let projectArrayLength = projectObj[`${_currentProjectName}`].length;
         return projectArrayLength;
     }
 
     return { newTask,
-            switchProject, 
+            switchProject,
+            addProject,
             getCurrentProject, 
             getItem, 
             getProjectArrayLength,
             createDefaultInbox,
             saveDescription,
             saveTitle,
+            saveDate,
+            removeItem,
         }
 })();
 

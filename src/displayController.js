@@ -7,17 +7,54 @@ const displayController = (() => {
         _drawAllTasksInProject();
         input.value = '';
         showLastItem();
+        _resetDate();
     }
 
     function switchProject(target) {
-        let currentproject = document.querySelector('.selected');
+        let currentProject = document.querySelector('.selected');
         const projectTitleText = document.getElementById('project-name');
-        currentproject.classList.remove('selected');
+        if (currentProject) currentProject.classList.remove('selected');
         target.classList.add('selected');
         projectTitleText.textContent = projectHandler.getCurrentProject();
-
         descriptionContainer('hide');
         _drawAllTasksInProject();
+        _resetDate();
+    }
+
+    function createProject(name) {
+        const listColumn = document.querySelector('#lists-view > ul');
+
+        const list = document.createElement('li');
+        list.classList.add('project');
+        list.innerText = name;
+        list.setAttribute('data-name', name);
+        list.addEventListener('click', (e) => projectHandler.switchProject(e));
+
+        const span = document.createElement('span');
+        span.classList.add('remove-list');
+        span.setAttribute('data-name', name);
+        span.addEventListener('click', removeProject);
+
+        const removeListIcon = document.createElement('i');
+        removeListIcon.setAttribute('class', 'fas fa-times-circle');
+
+        const input = document.getElementById('new-list-input');
+        input.value = '';
+        input.classList.toggle('hidden');
+
+        const addListBtn = document.getElementById('new-list');
+        addListBtn.classList.toggle('add-list-focus');
+
+        span.appendChild(removeListIcon);
+        list.appendChild(span);
+
+        listColumn.appendChild(list);
+    }
+
+    function removeProject() {
+        let projectName = this.getAttribute('data-name');
+        let listToRemove = document.querySelector(`li[data-name='${projectName}']`);
+        listToRemove.remove();
     }
 
     // Erases old tasks, then draws all the tasks in the selected project
@@ -38,11 +75,21 @@ const displayController = (() => {
             let inputCheckbox = document.createElement('input');
             inputCheckbox.setAttribute('type', 'checkbox');
             inputCheckbox.setAttribute('data-index', i);
+            if (projectHandler.getItem(i).completed === 'yes') {
+                inputCheckbox.setAttribute('checked', '');
+                itemDiv.classList.add('complete-task');
+            }
 
             inputCheckbox.addEventListener('click', (e) => {
                 let index = e.target.getAttribute('data-index');
                 let taskItem = document.querySelector(`div[data-index='${index}']`);
                 taskItem.classList.toggle('complete-task');
+                if (projectHandler.getItem(index).completed === 'yes') {
+                    projectHandler.getItem(index).completed = 'no';
+                } else {
+                    projectHandler.getItem(index).completed = 'yes';
+                }
+                console.log('Is the item completed: ' + projectHandler.getItem(index).completed);
             });
 
             let pTitle = document.createElement('p');
@@ -50,18 +97,20 @@ const displayController = (() => {
             pTitle.setAttribute('data-index', i);
 
             let icon = document.createElement('i');
-            icon.setAttribute('class', 'fas fa-ellipsis-h');
+            icon.setAttribute('class', 'fas fa-times');
+            icon.setAttribute('data-index', i);
+            icon.addEventListener('click', _removeItem);
 
             itemDiv.appendChild(inputCheckbox);
             itemDiv.appendChild(pTitle);
             itemDiv.appendChild(icon);
 
-            itemDiv.addEventListener('click', (e) => switchDescription(e));
+            itemDiv.addEventListener('click', (e) => setDetails(e));
             itemDiv.addEventListener('click', () => {
-                // let oldHighlight = document.querySelector('.highlight-task');
-                // oldHighlight.classList.remove('highlight-task');
-                // itemDiv.classList.toggle('highlight-task');
-            })
+                let toRemove = document.querySelector('.highlight-task');
+                if (toRemove) toRemove.classList.toggle('highlight-task');
+                itemDiv.classList.toggle('highlight-task');
+            });
 
             taskContainer.appendChild(itemDiv);
         }
@@ -81,21 +130,28 @@ const displayController = (() => {
         }
     }
 
-    function switchDescription(event) {
+    function setDetails(event) {
         if (event.target.tagName === 'INPUT' || event.target.tagName === 'I') return;
         let index = event.target.getAttribute('data-index');
         let textArea = document.querySelector('textarea');
         let titleText = document.querySelector('.description-title > input');
+        const dateInput = document.querySelector('input[type=date]');
         titleText.value = projectHandler.getItem(index).title;
         descriptionContainer('show', index);
-        if (!projectHandler.getItem(index).description) return textArea.value = '';
-        textArea.value = projectHandler.getItem(index).description;
+        dateInput.setAttribute('data-index', index);
+        if (!projectHandler.getItem(index).description) textArea.value = '';
+        if (projectHandler.getItem(index).description) textArea.value = projectHandler.getItem(index).description;
+        if (!projectHandler.getItem(index).date) dateInput.value = '';
+        if (projectHandler.getItem(index).date) dateInput.value = projectHandler.getItem(index).date;
+        console.log(projectHandler.getItem(index).date);
     }
 
     function showLastItem() {
         let index = projectHandler.getProjectArrayLength() - 1;
         let textArea = document.querySelector('textarea');
         let titleText = document.querySelector('.description-title > input');
+        let date = document.querySelector('input[type=date]');
+        date.setAttribute('data-index', index);
         titleText.value = projectHandler.getItem(index).title;
         descriptionContainer('show', index);
         if (!projectHandler.getItem(index).description) return textArea.value = '';
@@ -107,11 +163,25 @@ const displayController = (() => {
         title.innerText = String(value);
     }
 
+    function _resetDate() {
+        const dateInput = document.querySelector('input[type=date]');
+        dateInput.value = '';
+    }
+
+    function _removeItem() {
+        const index = this.getAttribute('data-index');
+        const item = document.querySelector(`.task-item[data-index='${index}']`);
+        item.remove();
+        projectHandler.removeItem(index);
+        descriptionContainer('hide');
+        _drawAllTasksInProject();
+    }
+
     function drawAllTasks() {
         _drawAllTasksInProject();
     }
 
-    return { addTask, switchProject, drawAllTasks, editTitle, showLastItem, }
+    return { addTask, switchProject, drawAllTasks, editTitle, showLastItem, createProject }
 })();
 
 export default displayController
